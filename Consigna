@@ -1,1 +1,21 @@
 Desarrollar un programa que lee un archivo y clasifique 
+
+El Hospital que nos contrata desea recuperar pacientes perdidos. Para eso, estudia las historias
+clínicas (ya digitalizadas) para descubrir quiénes han dejado de asistir a las citas que tenían
+programadas.
+Dividen los grupos en dos:
+1) Los que fueron citados para hace más de diez años y no concurrieron a la consulta.
+a. Son irrecuperables.
+b. Sus historias clínicas deben trasladarse a archivo y en el sistema debe constar,
+junto con el documento el rótulo “archivado”.
+2) Los que fueron citados hace menos de diez años, y no concurrieron, ni reprogramaron.
+a. Podrían volver. Depende de cuánto tiempo ha pasado.
+b. Revisar si fueron internados o fallecieron.
+c. Crear un archivo con nombre, apellido, teléfono de contacto y datos del último
+médico que los atendió. También agregar la prepaga u obra social que tenían
+en el momento de la última consulta, a efectos de verificar la continuidad del
+dato.
+d. Pasar el archivo a la secretaría de pacientes, para que los contacte e informe
+de las respuestas. En caso de que el paciente quiera volver, se programará una
+consulta. En este caso se informará “retorna”. Si la cobertura social hubiera
+cambiado, se deberá informar la nueva. 
