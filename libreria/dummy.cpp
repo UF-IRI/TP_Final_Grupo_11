@@ -343,7 +343,6 @@ Consulta* ArchConsul_leer() {
 	Consulta aux;
 
 	char coma;
-
 	int tamact = 0;
 
 	fstream arch;
