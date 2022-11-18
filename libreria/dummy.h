@@ -7,12 +7,13 @@
 #include <regex>
 #include <ctime>
 
-#define ArchP "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Pacientes.csv"
-#define ArchOS "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_ObraSocial.csv"
-#define ArchM "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Medicos.csv"
-#define ArchContac "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Contactos.csv"
-#define ArchConsul "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Consultas.csv"
-#define ArchCE "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_ConsultasEliminados.csv"
+#define ArchP "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_Pacientes.csv"
+#define ArchOS "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_ObraSocial.csv"
+#define ArchM "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_Medicos.csv"
+#define ArchContac "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_Contactos.csv"
+#define ArchConsul "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_Consultas.csv"
+#define ArchCE "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_ConsultasEliminados.csv"
+#define ArchUM "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_UltimoMedico.csv"
 
 using namespace std;
 
@@ -66,6 +67,7 @@ void ltPaciente_agregar(Paciente*& ltpaciente, Paciente paciente, int* tamactual
 Paciente* ArchPaciente_leer();
 void ArchPaciente_agregar(Paciente p);
 bool ArchPaciente_crear();
+int TamanioArchPaciente();
 /*-----O.SOCIAL-----*/
 void ltOS_agregar(ObraSocial*& ltos, ObraSocial os, int* tamactual);
 ObraSocial* ArchOS_leer();
@@ -94,5 +96,9 @@ int TamanioArchConsul();
 /*------------------*/
 
 /*-----FUNCIONES----*/
+
+void IoF();
+void Secretaria();
+void UltimoMedico();
 
 /*------------------*/

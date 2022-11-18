@@ -82,6 +82,27 @@ bool ArchPaciente_crear() {
 	}
 	else { return false; }
 }
+int TamanioArchPaciente() {
+
+	char coma;
+	fstream arch;
+	arch.open(ArchP, ios::in);
+
+	if (!(arch.is_open()))
+		return 0;
+
+	string basura;
+	arch >> basura >> coma >> basura >> coma >> basura >> coma >> basura >> coma >> basura >> coma >> basura >> coma >> basura;
+	int i = 0;
+	while (arch) {
+		Paciente aux;
+		arch >> aux.dni >> coma >> aux.nombre >> coma >> aux.apellido >> coma >> aux.sexo >> coma >> aux.natalicio.dia >> coma >> aux.natalicio.mes >> coma >> aux.natalicio.anio >> coma >> aux.estado >> coma >> aux.id_os.obra_social;
+		i++;
+	}
+
+	arch.close();
+	return i;
+}
 /*-----O.SOCIAL-----*/
 /*-----O.SOCIAL-----*/
 void ltOS_agregar(ObraSocial*& ltos, ObraSocial os, int* tamactual) {
@@ -523,4 +544,124 @@ int TamanioArchConsul() {
 	arch.close();
 	return i;
 }
-/*------------------*/
+/*--------OTRAS FUNCIONES----------*/
+
+void IoF() //internado o fallecido
+{
+	Paciente* aux = ArchPaciente_leer();
+	int tam = TamanioArchPaciente();
+
+	Consulta* aux1 = ArchConsul_leer();
+	//si es 1: hace mas de 10 anios saco el turno y no se presento. cuando retorna 2: fueron citados hace menos de diez anios y no se presento 
+
+	for (int i = 0; i < tam; i++)
+	{
+
+		int DiezAnios = DiezAniosCosulta(aux1[i].solicitado.anio, aux1[i].presento);
+		if (DiezAnios == 2 && aux[i].estado == "fallecido")
+		{
+			cout << "FALLECIDO" << endl;
+		}
+		else if (DiezAnios == 2 && aux[i].estado == "internado")
+		{
+			cout << "INTERNADO" << endl;
+		}
+	}
+}
+
+void UltimoMedico()
+{
+	fstream archivo, arch;
+	Medico* aux;
+	Paciente* auxx;
+	Consulta* aux1 = ArchConsul_leer();
+
+	int i = 0;
+	int tam = TamanioArchConsul();
+	
+
+	arch.open(ArchConsul, ios::in);
+	if (!(arch.is_open())) { return; }
+
+	while (arch)
+	{
+		int DiezAnios = DiezAniosCosulta(aux1[i].solicitado.anio, aux1[i].presento);
+		if (DiezAnios == 2)
+		{
+			//se tendria que fijar cual medico fue el ultimo en atenderlo
+		}
+	}
+
+	arch.close();
+
+	archivo.open(ArchUM, ios::out);
+
+	if (!(archivo.is_open())) { return; }
+
+	while (i < tam)
+	{
+		if (DiezAnios == 2)
+		{
+			archivo << aux[i].matricula << coma << aux[i].nombre << coma << aux[i].apellido << coma << aux[i].telefono << aux[i].especialidad << coma << aux[i].activo << endl;
+			archivo << auxx[i].dni << coma << auxx[i].id_os.obra_social << endl;
+		}
+	}
+
+	archivo.close();
+
+}
+
+void Secretaria()
+{
+	fstream archivo;
+	fstream arch;
+	Paciente* aux;
+	Paciente paciente;
+	int tam = TamanioArchConsul();
+
+	archivo.open(ArchP, ios::in); //primero lo leo, lo guardo adentro de un puntero
+	arch.open(ArchConsul, ios::in)
+
+
+	if (!(archivo.is_open())) { return; }
+	if (!(arch.is_open())) { return; }
+
+	while (archivo)
+	{
+		//guardo en un puntero el archivo 
+		Paciente* aux1 = new Paciente[tam];
+
+	}
+
+	while (arch)
+	{
+		Consulta* aux2 = new Consulta[tam];
+	}
+
+	archivo.close();
+	arch.close();
+
+	int DiezAnios = DiezAniosCosulta();
+
+	archivo.open(ArchP, ios::out);
+	archivo.open(ArchConsul, ios::out);
+
+	if (!(archivo.is_open())) { return; }
+	if (!(arch.is_open())) { return; }
+
+	while (i < tam)
+	{
+		ArchPaciente_agregar(paciente);
+		if (aux[i].id_os != aux1[i].id_os && DiezAnios == 2)
+		{
+
+			archivo << aux[i].id_os << endl;
+		}
+		else
+			return;
+
+	}
+	archivo.close();
+	arch.close();
+
+}
