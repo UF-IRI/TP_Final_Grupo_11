@@ -63,7 +63,7 @@ void ArchPaciente_agregar(Paciente p) {
 	arch.close();
 	arch.open(ArchP,  ios::app);
 	if (arch.is_open()) {
-		arch << endl << p.dni << coma << p.nombre << coma << p.apellido << coma << p.sexo << coma << p.natalicio.dia << barra << p.natalicio.mes << barra << p.natalicio.anio << coma << p.estado << coma << p.id_os.obra_social;
+		arch << p.dni << coma << p.nombre << coma << p.apellido << coma << p.sexo << coma << p.natalicio.dia << barra << p.natalicio.mes << barra << p.natalicio.anio << coma << p.estado << coma << p.id_os.obra_social;
 	}
 	arch.close();
 	
@@ -82,6 +82,7 @@ bool ArchPaciente_crear() {
 	}
 	else { return false; }
 }
+/*-----O.SOCIAL-----*/
 /*-----O.SOCIAL-----*/
 void ltOS_agregar(ObraSocial*& ltos, ObraSocial os, int* tamactual) {
 	*tamactual = *tamactual + 1;
@@ -144,7 +145,7 @@ void ArchOS_agregar(ObraSocial os) {
 	arch.close();
 	arch.open(ArchOS, ios::app);
 	if (arch.is_open()) {
-		arch << endl << os.id << coma << os.obra_social;
+		arch  << os.id << coma << os.obra_social;
 	}
 	arch.close();
 
@@ -224,7 +225,7 @@ void ArchM_agregar(Medico m) {
 	arch.close();
 	arch.open(ArchM, ios::app);
 	if (arch.is_open()) {
-		arch << endl << m.matricula << coma << m.nombre << coma << m.apellido << coma << m.telefono << coma << m.especialidad << coma << m.activo;
+		arch  << m.matricula << coma << m.nombre << coma << m.apellido << coma << m.telefono << coma << m.especialidad << coma << m.activo;
 	}
 	arch.close();
 
@@ -304,7 +305,7 @@ void ArchContac_agregar(Contacto contacto) {
 	arch.close();
 	arch.open(ArchContac, ios::app);
 	if (arch.is_open()) {
-		arch << endl << contacto.dni_p.dni << coma << contacto.telefono << coma << contacto.celular << coma << contacto.direccion << coma << contacto.email ;
+		arch  << contacto.dni_p.dni << coma << contacto.telefono << coma << contacto.celular << coma << contacto.direccion << coma << contacto.email ;
 	}
 	arch.close();
 
@@ -384,7 +385,7 @@ void ArchConsul_agregar(Consulta consulta) {
 	arch.close();
 	arch.open(ArchConsul, ios::app);
 	if (arch.is_open()) {
-		arch << endl << consulta.dni_p.dni << coma << consulta.solicitado.dia << barra << consulta.solicitado.mes << barra << consulta.solicitado.anio << coma << consulta.turno.dia << barra << consulta.turno.mes << barra << consulta.turno.anio << coma << consulta.presento << coma << consulta.matricula_m.matricula;
+		arch  << consulta.dni_p.dni << coma << consulta.solicitado.dia << barra << consulta.solicitado.mes << barra << consulta.solicitado.anio << coma << consulta.turno.dia << barra << consulta.turno.mes << barra << consulta.turno.anio << coma << consulta.presento << coma << consulta.matricula_m.matricula;
 	}
 	arch.close();
 
@@ -401,5 +402,125 @@ bool ArchConsul_crear() {
 		return true;
 	}
 	else { return false; }
+}
+int DiezAniosCosulta(int solicitado, string presento) {
+
+	time_t t = time(NULL);
+	struct tm* anio = localtime(&t);
+	int diferencia;
+	
+		diferencia = anio->tm_year - (solicitado - 1900);
+		if (diferencia > 10 && presento == "0") {
+			return 1;
+		}
+		else if (diferencia < 10 && presento == "0") {
+			return 2;
+		}
+	return 0;
+}
+void ArchConsul_RedireccionarEliminado() {
+
+	char coma;
+	int diferencia;
+	
+	Consulta aux;
+	ifstream arch;
+	arch.open(ArchConsul, ios::in);
+	if (!(arch.is_open())) { return; }
+	
+	string basura;
+	arch >> basura >> coma >> basura >> coma >> basura >> coma >> basura >> coma >> basura;
+	while (arch) {
+		arch >> aux.dni_p.dni >> coma >> aux.solicitado.dia >> coma >> aux.solicitado.mes >> coma >> aux.solicitado.anio >> coma >> aux.turno.dia >> coma >> aux.turno.mes >> coma >> aux.turno.anio >> coma >> aux.presento >> coma >> aux.matricula_m.matricula;
+		diferencia = DiezAniosCosulta(aux.solicitado.anio,aux.presento);
+		if (diferencia == 1) {
+			
+			ArchConsul_eliminados(aux);
+			ArchConsul_eliminar(aux);
+		}
+	}
+	arch.close();
+}
+void ArchConsul_eliminar(Consulta consulta) {
+
+	string coma = " , ";
+	string barra = "/";
+	fstream arch;
+	int tamanio = TamanioArchConsul();
+	Consulta* c = ArchConsul_leer();
+	
+	arch.open(ArchConsul, ios::out);
+	if (!(arch.is_open())) { return; }
+	while (int i = 0 < tamanio) {
+		if (consulta.dni_p.dni == c[i].dni_p.dni) {
+			for (int j = i; j < tamanio; j++) {
+				c[i].dni_p.dni = c[i + 1].dni_p.dni;
+				c[i].solicitado.dia = c[i + 1].solicitado.dia;
+				c[i].solicitado.mes = c[i + 1].solicitado.mes;
+				c[i].solicitado.anio = c[i + 1].solicitado.anio;
+				c[i].turno.dia = c[i + 1].turno.dia;
+				c[i].turno.mes = c[i + 1].turno.mes;
+				c[i].turno.anio = c[i + 1].turno.anio;
+				c[i].presento = c[i + 1].presento;
+				c[i].matricula_m.matricula = c[i + 1].matricula_m.matricula;
+			}
+			break;
+		}
+
+	}
+	arch << "dni_pac , fecha_solicitado , fecha_turno , presento , matricula_med" << endl;
+	while (int i = 0 < tamanio) {
+		arch << c[i].dni_p.dni << coma << c[i].solicitado.dia << barra << c[i].solicitado.mes << barra << c[i].solicitado.anio << coma << c[i].turno.dia << barra << c[i].turno.mes << barra << c[i].turno.anio << coma << c[i].presento << coma << c[i].matricula_m.matricula << endl;
+		i++;
+	}
+	arch.close();
+}
+void ArchConsul_eliminados( Consulta consulta) {
+	const char coma = ',';
+	const char barra = '/';
+
+	fstream arch;
+
+	arch.open(ArchCE, ios::in);
+	if (!(arch.is_open())) {
+		arch.close();
+
+		arch.open(ArchCE, ios::out);
+		if (arch.is_open()) {
+			arch << "dni_pac , fecha_solicitado , fecha_turno , presento , matricula_med" << endl;
+		}
+		else { cout << "No abrio el archivo 'consulta eliminados'."; return; }
+		
+	}
+	arch.close();
+	arch.open(ArchCE, ios::app);
+	if (arch.is_open()) {
+		arch << consulta.dni_p.dni << coma << consulta.solicitado.dia << barra << consulta.solicitado.mes << barra << consulta.solicitado.anio << coma << consulta.turno.dia << barra << consulta.turno.mes << barra << consulta.turno.anio << coma << consulta.presento << coma << consulta.matricula_m.matricula << endl;
+	}
+	arch.close();
+
+
+	return;
+}
+int TamanioArchConsul() {
+
+	char coma;
+	fstream arch;
+	arch.open(ArchConsul, ios::in);
+
+	if (!(arch.is_open()))
+		return 0;
+
+	string basura;
+	arch >> basura >> coma >> basura >> coma >> basura >> coma >> basura >> coma >> basura;
+	int i = 0;
+	while (arch) {
+		Consulta aux;
+		arch >> aux.dni_p.dni >> coma >> aux.solicitado.dia >> coma >> aux.solicitado.mes >> coma >> aux.solicitado.anio >> coma >> aux.turno.dia >> coma >> aux.turno.mes >> coma >> aux.turno.anio >> coma >> aux.presento >> coma >> aux.matricula_m.matricula;
+		i++;
+	}
+
+	arch.close();
+	return i;
 }
 /*------------------*/

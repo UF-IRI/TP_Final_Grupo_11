@@ -4,7 +4,7 @@
 
 int main() {
 
-    //hoooooooooooolaaaaaaaaa
+    
 
     Fecha natalicio1 = { 6,9,2000 };
     Fecha natalicio2 = { 9,9,1995 };
@@ -18,9 +18,9 @@ int main() {
 
     Medico m1 = { "12-345-1234", "Sebastian", "Rimmele", "+54(299)5808204", "Cardiologo", "true" };
 
-    Contacto contac1 = { 42850107, "+54(299)5808204", "+54(299)5808205", "Charcas", "facurimmele@gmail.com" };
+    //Contacto contac1 = { 42850107, "+54(299)5808204", "+54(299)5808205", "Charcas", "facurimmele@gmail.com" };
 
-    Consulta consul1 = { 42850107,solicitado,turno,"1","12-345-1234" };
+    //Consulta consul1 = { 42850107,solicitado,turno,"S","12-345-1234" };
 
     Paciente* p;
     ObraSocial* os;
@@ -29,7 +29,7 @@ int main() {
     Consulta* consul;
 
 
-    //ArchPaciente_agregar(p2);
+    ArchPaciente_agregar(p1);
     //ArchOS_agregar(os1);
     //ArchM_agregar(m1);
     //ArchContac_agregar(contac1);
@@ -41,10 +41,12 @@ int main() {
     contac = ArchContac_leer();
     consul = ArchConsul_leer();
     
+    //ArchConsul_RedireccionarEliminado(); //busca los que fueron citados para hace más de diez años y no concurrieron a la consulta, los guarda en un nuevo archivo y los elimina del actual
+
     int i = 0;
     string coma = " , ";
     string barra = "/";
-
+/*
     //imprimo personas
     while (i < 10) {
 
@@ -76,7 +78,7 @@ int main() {
         cout << m[i].matricula << coma << m[i].nombre << coma << m[i].apellido << coma << m[i].telefono << coma << m[i].especialidad << coma << m[i].activo << endl;
         i++;
     }
-    cout << endl;
+ */   cout << endl;
     i = 0;
     //imprimo consultas
     while (i < 5) {

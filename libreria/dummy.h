@@ -5,12 +5,14 @@
 #include <string>
 #include <cstring>
 #include <regex>
+#include <ctime>
 
 #define ArchP "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Pacientes.csv"
 #define ArchOS "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_ObraSocial.csv"
 #define ArchM "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Medicos.csv"
 #define ArchContac "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Contactos.csv"
 #define ArchConsul "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Consultas.csv"
+#define ArchCE "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_ConsultasEliminados.csv"
 
 using namespace std;
 
@@ -53,7 +55,7 @@ struct Consulta {
 	Paciente dni_p;//saco dni
 	Fecha solicitado; //dia que pidio el turno
 	Fecha turno; //fecha del turno
-	string presento;
+	string presento; // "S" si se presento / "N" no se presento
 	Medico matricula_m;//saco matricula
 };
 /*-----------------*/
@@ -84,6 +86,11 @@ void ltConsul_agregar(Consulta*& ltconsul, Consulta consulta, int* tamactual);
 Consulta* ArchConsul_leer();
 void ArchConsul_agregar(Consulta consulta);
 bool ArchConsul_crear();
+int DiezAniosCosulta(int solicitado, string presento);
+void ArchConsul_eliminados(Consulta c);
+void ArchConsul_RedireccionarEliminado();
+void ArchConsul_eliminar(Consulta consulta);
+int TamanioArchConsul();
 /*------------------*/
 
 /*-----FUNCIONES----*/
