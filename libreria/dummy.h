@@ -7,21 +7,40 @@
 #include <regex>
 #include <ctime>
 
-#define ArchP "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_Pacientes.csv"
-#define ArchOS "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_ObraSocial.csv"
-#define ArchM "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_Medicos.csv"
-#define ArchContac "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_Contactos.csv"
-#define ArchConsul "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_Consultas.csv"
-#define ArchCE "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_ConsultasEliminados.csv"
-#define ArchUM "C:\\Users\\maite\\OneDrive\\Escritorio\\FAVALORO\\SEGUNDO AÑO\\SEGUNDO CUATRI\\IRI\\TP FINAL\\data_files\\input\\IRI_UltimoMedico.csv"
+#define ArchP "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Pacientes.csv"
+#define ArchOS "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_ObraSocial.csv"
+#define ArchM "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Medicos.csv"
+#define ArchContac "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Contactos.csv"
+#define ArchConsul "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Consultas.csv"
+#define ArchCE "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_ConsultasEliminados.csv"
+#define ArchUM "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_UltimoMedico.csv"
 
 using namespace std;
+
+/*------ENUMS------*/
+enum Estado{
+	FALLECIDO = 1, INTERNADO
+};
+enum Especialidad {
+	NEUROLOGIA = 1, CARDIOLOGIA, PEDIATRIA
+};
+/*-----------------*/
 
 /*-----STRUCTS-----*/
 struct Fecha {
 	int dia;
 	int mes;
 	int anio;
+};
+struct Matricula {
+	int p1;
+	int p2;
+	int p3;
+};
+struct Telefono {
+	int pais;
+	int area;
+	int num;
 };
 struct ObraSocial {
 	int id;
@@ -33,22 +52,22 @@ struct Paciente {
 	string apellido;
 	char sexo;
 	Fecha natalicio;
-	string estado;
+	Estado estado;
 	ObraSocial id_os;
 };
 struct Medico {
-	string matricula;
+	Matricula matricula;
 	string nombre;
 	string apellido;
-	string telefono;
-	string especialidad;
-	string activo;
+	Telefono telefono;
+	Especialidad especialidad;
+	bool activo;
 
 };
 struct Contacto {
 	Paciente dni_p; //saco dni
-	string telefono;
-	string celular;
+	Telefono telefono;
+	Telefono celular;
 	string direccion;
 	string email;
 };
@@ -56,7 +75,7 @@ struct Consulta {
 	Paciente dni_p;//saco dni
 	Fecha solicitado; //dia que pidio el turno
 	Fecha turno; //fecha del turno
-	string presento; // "S" si se presento / "N" no se presento
+	int presento; // "S" si se presento / "N" no se presento
 	Medico matricula_m;//saco matricula
 };
 /*-----------------*/
@@ -65,38 +84,47 @@ struct Consulta {
 /*-----PACIENTE-----*/
 void ltPaciente_agregar(Paciente*& ltpaciente, Paciente paciente, int* tamactual);
 Paciente* ArchPaciente_leer();
-void ArchPaciente_agregar(Paciente p);
+void ArchPaciente_agregar();
 bool ArchPaciente_crear();
 int TamanioArchPaciente();
+void ImpPacientes();
 /*-----O.SOCIAL-----*/
 void ltOS_agregar(ObraSocial*& ltos, ObraSocial os, int* tamactual);
 ObraSocial* ArchOS_leer();
 void ArchOS_agregar(ObraSocial os);
 bool ArchOS_crear();
+int TamanioArchOS();
+void ImpOS();
 /*------MEDICO------*/
 void ltM_agregar(Medico*& ltmedico, Medico medico, int* tamactual);
 Medico* ArchM_leer();
 void ArchM_agregar(Medico m);
 bool ArchM_crear();
+int TamanioArchMedico();
+void ImpMedicos();
 /*-----CONTACTO-----*/
 void ltContac_agregar(Contacto*& ltcontac, Contacto contacto, int* tamactual);
 Contacto* ArchContac_leer();
-void ArchContac_agregar(Contacto contacto);
+void ArchContac_agregar(int dni);
 bool ArchContac_crear();
+int TamanioArchContac();
+void ImpContactos();
 /*-----CONSULTA-----*/
 void ltConsul_agregar(Consulta*& ltconsul, Consulta consulta, int* tamactual);
 Consulta* ArchConsul_leer();
 void ArchConsul_agregar(Consulta consulta);
 bool ArchConsul_crear();
-int DiezAniosCosulta(int solicitado, string presento);
+int TamanioArchConsul();
+void ImpConsultas();
+int DiezAniosCosulta(int solicitado, int presento);
 void ArchConsul_eliminados(Consulta c);
 void ArchConsul_RedireccionarEliminado();
 void ArchConsul_eliminar(Consulta consulta);
-int TamanioArchConsul();
+
 /*------------------*/
 
 /*-----FUNCIONES----*/
-
+void menu();
 void IoF();
 void Secretaria();
 void UltimoMedico();
