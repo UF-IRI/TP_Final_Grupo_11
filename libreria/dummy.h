@@ -117,7 +117,7 @@ bool ArchConsul_crear();
 int TamanioArchConsul();
 void ImpConsultas();
 int DiezAniosCosulta(int solicitado, int presento);
-void ArchConsul_eliminados(Consulta c);
+bool ArchConsul_eliminados(Consulta c);
 void ArchConsul_RedireccionarEliminado();
 void ArchConsul_eliminar(Consulta consulta);
 

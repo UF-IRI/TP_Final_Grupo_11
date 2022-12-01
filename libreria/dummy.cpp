@@ -712,6 +712,7 @@ void ArchConsul_RedireccionarEliminado() {
 
 	char coma;
 	int diferencia;
+	bool archivo;
 	
 	Consulta aux;
 	ifstream arch;
@@ -720,16 +721,23 @@ void ArchConsul_RedireccionarEliminado() {
 	
 	string basura;
 	arch >> basura >> coma >> basura >> coma >> basura >> coma >> basura >> coma >> basura;
+	cout << "Este proceso puede tardar unos segundos..." << endl;
 	while (arch) {
 		arch >> aux.dni_p.dni >> coma >> aux.solicitado.dia >> coma >> aux.solicitado.mes >> coma >> aux.solicitado.anio >> coma >> aux.turno.dia >> coma >> aux.turno.mes >> coma >> aux.turno.anio >> coma >> aux.presento >> coma >> aux.matricula_m.matricula.p1 >> coma >> aux.matricula_m.matricula.p2 >> coma >> aux.matricula_m.matricula.p3;
 		diferencia = DiezAniosCosulta(aux.solicitado.anio,aux.presento);
 		if (diferencia == 1) {
 			
-			ArchConsul_eliminados(aux);
+			archivo = ArchConsul_eliminados(aux);
+			if (archivo == false) { cout << "no se pudo archivar 'consulta eliminados'."; return; }
 			ArchConsul_eliminar(aux);
+			
 		}
 	}
 	arch.close();
+	system("cls");
+	cout << "Se ARCHIVO correctmante." << endl;
+	system("pause");
+
 }
 void ArchConsul_eliminar(Consulta consulta) {
 
@@ -740,10 +748,8 @@ void ArchConsul_eliminar(Consulta consulta) {
 	int tamanio = TamanioArchConsul();
 	Consulta* c = ArchConsul_leer();
 	int i = 0;
-	int cont = 0;
 	while (i < tamanio) {
 		if (consulta.dni_p.dni == c[i].dni_p.dni) {
-			cont++;
 			for (int j = i; j < tamanio; j++) {
 				c[j].dni_p.dni = c[j + 1].dni_p.dni;
 				c[j].solicitado.dia = c[j + 1].solicitado.dia;
@@ -759,17 +765,30 @@ void ArchConsul_eliminar(Consulta consulta) {
 		}
 		i++;
 	}
-	i = 0;
+	c[tamanio].dni_p.dni =NULL;
+	c[tamanio].solicitado.dia = NULL;
+	c[tamanio].solicitado.mes = NULL;
+	c[tamanio].solicitado.anio = NULL;
+	c[tamanio].turno.dia = NULL;
+	c[tamanio].turno.mes = NULL;
+	c[tamanio].turno.anio = NULL;
+	c[tamanio].presento = NULL;
+	c[tamanio].matricula_m.matricula.p1 = NULL;
+	c[tamanio].matricula_m.matricula.p2 = NULL;
+	c[tamanio].matricula_m.matricula.p3 = NULL;
+
 	arch.open(ArchConsul, ios::out);
 	//if (!(arch.is_open())) { return; }
 	arch << "dni_pac , fecha_solicitado , fecha_turno , presento , matricula_med" << endl;
-	while (i < tamanio - cont) {
+	i = 0;
+	tamanio--;
+	while (i < tamanio) {
 		arch << c[i].dni_p.dni << coma << c[i].solicitado.dia << barra << c[i].solicitado.mes << barra << c[i].solicitado.anio << coma << c[i].turno.dia << barra << c[i].turno.mes << barra << c[i].turno.anio << coma << c[i].presento << coma << c[i].matricula_m.matricula.p1 << guion << c[i].matricula_m.matricula.p2 << guion << c[i].matricula_m.matricula.p3 << endl;
 		i++;
 	}
 	arch.close();
 }
-void ArchConsul_eliminados( Consulta consulta) {
+bool ArchConsul_eliminados( Consulta consulta) {
 	const char coma = ',';
 	const char barra = '/';
 	const char guion = '-';
@@ -784,7 +803,7 @@ void ArchConsul_eliminados( Consulta consulta) {
 		if (arch.is_open()) {
 			arch << "dni_pac , fecha_solicitado , fecha_turno , presento , matricula_med" << endl;
 		}
-		else { cout << "No abrio el archivo 'consulta eliminados'."; return; }
+		else { cout << "No abrio el archivo 'consulta eliminados'."; return false; }
 		
 	}
 	arch.close();
@@ -795,7 +814,7 @@ void ArchConsul_eliminados( Consulta consulta) {
 	arch.close();
 
 
-	return;
+	return true;
 }
 
 /*--------OTRAS FUNCIONES----------*/
@@ -817,10 +836,10 @@ void menu() {//falta titulo de cada imprimir
 			while (opc != 9) {
 				system("cls");
 				cout << "------------MENU-PACIENTES------------" << endl;
-				cout << "1) Imprimir Pacientes." << endl;
-				cout << "2) Imprimir Contactos de pacientes." << endl;
-				cout << "3) Buscar e imprimir paciente." << endl;
-				cout << "4) Agregar nuevo Paciente y Contacto." << endl;
+				cout << "1) Imprimir Pacientes." << endl; //listo
+				cout << "2) Imprimir Contactos de pacientes." << endl; //listo
+				cout << "3) Buscar e imprimir paciente." << endl; //falta
+				cout << "4) Agregar nuevo Paciente y Contacto." << endl; //listo
 				cout << "9) Volver al menu." << endl;
 				cout << "->";
 				cin >> opc;
@@ -846,8 +865,8 @@ void menu() {//falta titulo de cada imprimir
 			while (opc != 9) {
 				system("cls");
 				cout << "------MENU-MEDICOS------" << endl;
-				cout << "1) Imprimir Medicos." << endl;
-				cout << "2) Agregar nuevo Medico." << endl;
+				cout << "1) Imprimir Medicos." << endl; //listo
+				cout << "2) Agregar nuevo Medico." << endl; //listo
 				cout << "9) Volver al menu." << endl;
 				cout << "->";
 				cin >> opc;
@@ -867,8 +886,8 @@ void menu() {//falta titulo de cada imprimir
 			while (opc != 9) {
 				system("cls");
 				cout << "----MENU-H.CLINICAS----" << endl;
-				cout << "1) Imprimir Consultas." << endl;
-				cout << "2) Actualizar archivo (elimina los que fueron citados para hace más de diez años y no concurrieron a la consulta)." << endl;
+				cout << "1) Imprimir Consultas." << endl; //listo
+				cout << "2) Actualizar archivo (elimina los que fueron citados para hace más de diez años y no concurrieron a la consulta)." << endl; //a terminar
 				cout << "9) Volver al menu." << endl;
 				cout << "->";
 				cin >> opc;
