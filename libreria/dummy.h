@@ -131,6 +131,5 @@ void menu();
 void PacienteXMedico();
 void IoF();
 void Secretaria();
-void UltimoMedico();
 
 /*------------------*/

@@ -1050,100 +1050,49 @@ void PacienteXMedico() {
 
 	//delete[] aux_p;
 }
-
-/*void UltimoMedico()
+void Secretaria()
 {
-	fstream archivo, arch;
-	Medico* aux;
-	Paciente* auxx;
-	Consulta* aux1 = ArchConsul_leer();
+	Paciente* P = ArchPaciente_leer();
+	bool respuesta;
 
-	int i = 0;
-	int tam = TamanioArchConsul();
-	int DiezAnios;
+	int tam = TamanioArchPaciente();
 
-	arch.open(ArchConsul, ios::in);
-	if (!(arch.is_open())) { return; }
+	Paciente aux;
 
-	while (arch)
+	cout << "Desea volver?" << endl;
+	cin >> respuesta;
+
+	if (respuesta == true)
 	{
-		DiezAnios = DiezAniosCosulta(aux1[i].solicitado.anio, aux1[i].presento);
-		if (DiezAnios == 2)
+		//desea volver
+		cout << "RETORNA" << endl;
+		cout << "Indique obra social: " << endl;
+		cin >> aux.id_os.obra_social;
+		for (int i = 0; i < tam; i++) //recorre pacientes
 		{
-			//se tendria que fijar cual medico fue el ultimo en atenderlo
+			if (P[i].id_os.obra_social != aux)
+			{
+				//informa nueva cobertura
+				if (P[i].id_os.obra_social == "OSDE")
+				{
+					P[i].id_os.id = 1;
+				}
+				if (P[i]id_os.obra_social == "INSTITUTO")
+				{
+					P[i].id_os.id = 2;
+				}
+				if (P[i].id_os.obra_social == "MEDICUS")
+				{
+					P[i].id_os.id = 3;
+				}
+				if (P[i].id_os.obra_social == "SWISS MEDICAL")
+				{
+					P[i].id_os.id = 4;
+				}
+			}
 		}
 	}
-
-	arch.close();
-
-	archivo.open(ArchUM, ios::out);
-
-	if (!(archivo.is_open())) { return; }
-
-	while (i < tam)
-	{
-		if (DiezAnios == 2)
-		{
-			archivo << aux[i].matricula << coma << aux[i].nombre << coma << aux[i].apellido << coma << aux[i].telefono << aux[i].especialidad << coma << aux[i].activo << endl;
-			archivo << auxx[i].dni << coma << auxx[i].id_os.obra_social << endl;
-		}
+	else {
+		cout << "La obra social sigue siendo la misma que en la ultima consulta" << endl;
 	}
-
-	archivo.close();
-
-}*/
-
-/*void Secretaria()
-{
-	fstream archivo;
-	fstream arch;
-	Paciente* aux;
-	Paciente paciente;
-	int tam = TamanioArchConsul();
-
-	archivo.open(ArchP, ios::in); //primero lo leo, lo guardo adentro de un puntero
-	arch.open(ArchConsul, ios::in);
-
-
-	if (!(archivo.is_open())) { return; }
-	if (!(arch.is_open())) { return; }
-
-	while (archivo)
-	{
-		//guardo en un puntero el archivo 
-		Paciente* aux1 = new Paciente[tam];
-
-	}
-
-	while (arch)
-	{
-		Consulta* aux2 = new Consulta[tam];
-	}
-
-	archivo.close();
-	arch.close();
-
-	int DiezAnios = DiezAniosCosulta();
-
-	archivo.open(ArchP, ios::out);
-	archivo.open(ArchConsul, ios::out);
-
-	if (!(archivo.is_open())) { return; }
-	if (!(arch.is_open())) { return; }
-
-	while (i < tam)
-	{
-		ArchPaciente_agregar(paciente);
-		if (aux[i].id_os != aux1[i].id_os && DiezAnios == 2)
-		{
-
-			archivo << aux[i].id_os << endl;
-		}
-		else
-			return;
-
-	}
-	archivo.close();
-	arch.close();
-
-}*/
+}
