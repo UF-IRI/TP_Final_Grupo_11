@@ -7,13 +7,15 @@
 #include <regex>
 #include <ctime>
 
-#define ArchP "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Pacientes.csv"
-#define ArchOS "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_ObraSocial.csv"
-#define ArchM "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Medicos.csv"
-#define ArchContac "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Contactos.csv"
-#define ArchConsul "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_Consultas.csv"
-#define ArchCE "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_ConsultasEliminados.csv"
-#define ArchUM "C:\\Users\\Facu\\OneDrive\\Documentos\\UF\\IRI\\2022 2do cuatri\\TpFinal\\data_files\\input\\IRI_UltimoMedico.csv"
+//debe cambiar la direccion de cada archivo para que funcione
+#define ArchP "C:\\UF\\Introduccion a Redes e Internet\\2022\\Trabajos\\TP Final\\Tp Final (2da entrega)\\data_files\\input\\IRI_Pacientes.csv"
+#define ArchOS "C:\\UF\\Introduccion a Redes e Internet\\2022\\Trabajos\\TP Final\\Tp Final (2da entrega)\\data_files\\input\\IRI_ObraSocial.csv"
+#define ArchM "C:\\UF\\Introduccion a Redes e Internet\\2022\\Trabajos\\TP Final\\Tp Final (2da entrega)\\data_files\\input\\IRI_Medicos.csv"
+#define ArchUMxP "C:\\UF\\Introduccion a Redes e Internet\\2022\\Trabajos\\TP Final\\Tp Final (2da entrega)\\data_files\\input\\IRI_UltimoMedicoXPaciente.csv"
+#define ArchContac "C:\\UF\\Introduccion a Redes e Internet\\2022\\Trabajos\\TP Final\\Tp Final (2da entrega)\\data_files\\input\\IRI_Contactos.csv"
+#define ArchConsul "C:\\UF\\Introduccion a Redes e Internet\\2022\\Trabajos\\TP Final\\Tp Final (2da entrega)\\data_files\\input\\IRI_Consultas.csv"
+#define ArchCE "C:\\UF\\Introduccion a Redes e Internet\\2022\\Trabajos\\TP Final\\Tp Final (2da entrega)\\data_files\\input\\IRI_ConsultasEliminados.csv"
+#define ArchUM "C:\\UF\\Introduccion a Redes e Internet\\2022\\Trabajos\\TP Final\\Tp Final (2da entrega)\\data_files\\input\\IRI_UltimoMedico.csv"
 
 using namespace std;
 
@@ -102,6 +104,8 @@ void ArchM_agregar(Medico m);
 bool ArchM_crear();
 int TamanioArchMedico();
 void ImpMedicos();
+void ArchUMxP_agregar(Medico m, Paciente p, Contacto c);
+bool ArchUMxP_crear();
 /*-----CONTACTO-----*/
 void ltContac_agregar(Contacto*& ltcontac, Contacto contacto, int* tamactual);
 Contacto* ArchContac_leer();
@@ -124,6 +128,7 @@ void ArchConsul_eliminar(Consulta consulta);
 
 /*-----FUNCIONES----*/
 void menu();
+void PacienteXMedico();
 void IoF();
 void Secretaria();
 void UltimoMedico();

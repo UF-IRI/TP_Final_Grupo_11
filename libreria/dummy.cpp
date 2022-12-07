@@ -440,6 +440,61 @@ void ImpMedicos() {
 	delete[]m;
 	system("pause");
 }
+void ArchUMxP_agregar(Medico m, Paciente p, Contacto c) {
+	string coma = " , ";
+	string mas = " + ";
+	string parenA = "(";
+	string parenC = ")";
+	string barra = "/";
+	string guion = "-";
+	string tab = "\t";
+	fstream arch;
+
+	arch.open(ArchUMxP, ios::in);
+	if (!(arch.is_open())) {
+
+		bool ok = ArchUMxP_crear();
+		if (ok == false) {
+			arch.close();
+			return;
+		}
+	}
+	arch.close();
+
+	string auxespecialidad;
+	if (m.especialidad == NEUROLOGIA) {
+		auxespecialidad = "neurologia";
+	}
+	else if (m.especialidad == CARDIOLOGIA) {
+		auxespecialidad = "cardiologia";
+	}
+	else { auxespecialidad = "pediatria"; }
+	string auxactivo;
+	if (m.activo == true) {
+		auxactivo = "true";
+	}
+	else { auxactivo = "false"; }
+
+	arch.open(ArchUMxP, ios::app);
+	if (arch.is_open()) {
+		arch << tab << tab << p.dni << coma << p.nombre << coma << p.apellido << coma << mas << c.telefono.pais << parenA << c.telefono.area << parenC << c.telefono.num << coma << p.id_os.obra_social << tab << tab << tab << m.matricula.p1 << guion << m.matricula.p2 << guion << m.matricula.p3 << coma << m.nombre << coma << m.apellido << coma << mas << m.telefono.pais << parenA << m.telefono.area << parenC << m.telefono.num << coma << auxespecialidad << coma << auxactivo << endl;
+	}
+	arch.close();
+
+
+
+}
+bool ArchUMxP_crear() {
+	const char coma = ',';
+	fstream arch;
+	arch.open(ArchUMxP, ios::out);
+
+	if (arch.is_open()) {
+		arch << "PACIENTE: dni_pac , nombre , apellido ,   telefono   , obra social ,  MEDICO: matricula , nombre , apellido ,   telefono   , especialidad , activo" << endl;
+		return true;
+	}
+	else { return false; }
+}
 /*-----CONTACTO-----*/
 void ltContac_agregar(Contacto*& ltcontac, Contacto contacto, int* tamactual) {
 	*tamactual = *tamactual + 1;
@@ -816,7 +871,6 @@ bool ArchConsul_eliminados( Consulta consulta) {
 
 	return true;
 }
-
 /*--------OTRAS FUNCIONES----------*/
 void menu() {//falta titulo de cada imprimir
 
@@ -838,8 +892,7 @@ void menu() {//falta titulo de cada imprimir
 				cout << "------------MENU-PACIENTES------------" << endl;
 				cout << "1) Imprimir Pacientes." << endl; //listo
 				cout << "2) Imprimir Contactos de pacientes." << endl; //listo
-				cout << "3) Buscar e imprimir paciente." << endl; //falta
-				cout << "4) Agregar nuevo Paciente y Contacto." << endl; //listo
+				cout << "3) Agregar nuevo Paciente y Contacto." << endl; //listo
 				cout << "9) Volver al menu." << endl;
 				cout << "->";
 				cin >> opc;
@@ -852,9 +905,7 @@ void menu() {//falta titulo de cada imprimir
 					system("cls");
 					ImpContactos();
 					break;
-				case 3://falta
-					break;
-				case 4:
+				case 3:
 					system("cls");
 					ArchPaciente_agregar();
 					break;
@@ -867,6 +918,7 @@ void menu() {//falta titulo de cada imprimir
 				cout << "------MENU-MEDICOS------" << endl;
 				cout << "1) Imprimir Medicos." << endl; //listo
 				cout << "2) Agregar nuevo Medico." << endl; //listo
+				cout << "3) Ordenar archivo con Pacientes y ultimos Medicos." << endl; //no se que error tiene pero andaba
 				cout << "9) Volver al menu." << endl;
 				cout << "->";
 				cin >> opc;
@@ -878,6 +930,10 @@ void menu() {//falta titulo de cada imprimir
 				case 2:
 					system("cls");
 					ArchM_agregar();
+					break;
+				case 3:
+					system("cls");
+					PacienteXMedico();
 					break;
 				}
 			}opc = 0;
@@ -927,6 +983,72 @@ void IoF() //internado o fallecido
 			cout << "INTERNADO" << endl;
 		}
 	}
+}
+void PacienteXMedico() {
+	Paciente* p = ArchPaciente_leer();
+	Contacto* contac = ArchContac_leer();
+	Medico* m = ArchM_leer();
+	Consulta* consul = ArchConsul_leer();
+
+	Fecha basurafecha, guardofecha;
+	guardofecha.dia = 0;
+	guardofecha.mes = 0;
+	guardofecha.anio = 0;
+
+	int tam_p = TamanioArchPaciente();
+	int tam_consul = TamanioArchConsul();
+	int tam_contac = TamanioArchContac();
+	int tam_m = TamanioArchMedico();
+	int pos_p = -1, pos_consul = -1, pos_m = -1, pos_contac = -1;
+	int np, nconsul, ncontac, nm;
+
+	//Paciente* aux_p = new Paciente[tam_p];
+	cout << "Este proceso puede tardar unos segundos..." << endl;
+	for (np = 0; np < tam_p; np++) {
+		basurafecha.dia = 0;
+		basurafecha.mes = 0;
+		basurafecha.anio = 0;
+
+		for (nconsul = 0; nconsul < tam_consul; nconsul++) {
+			if (p[np].dni == consul[nconsul].dni_p.dni) {
+				basurafecha.dia = consul[nconsul].turno.dia;
+				basurafecha.mes = consul[nconsul].turno.mes;
+				basurafecha.anio = consul[nconsul].turno.anio;
+				pos_p = np;
+				if (basurafecha.anio >= guardofecha.anio && basurafecha.mes >= guardofecha.mes && basurafecha.dia > guardofecha.dia) {
+					guardofecha.dia = basurafecha.dia;
+					guardofecha.mes = basurafecha.mes;
+					guardofecha.anio = basurafecha.anio;
+					pos_consul = nconsul;
+				}
+			}
+		}
+		for (nm = 0; nm < tam_m; nm++) {
+			if (m[nm].matricula.p1 == consul[pos_consul].matricula_m.matricula.p1 && m[nm].matricula.p2 == consul[pos_consul].matricula_m.matricula.p2 && m[nm].matricula.p3 == consul[pos_consul].matricula_m.matricula.p3) {
+				pos_m = nm;
+				break;
+			}
+		}
+		for (ncontac = 0; ncontac < tam_contac; ncontac++) {
+			if (contac[ncontac].dni_p.dni == p[pos_p].dni) {
+				pos_contac = ncontac;
+				break;
+			}
+		}
+		if(pos_p != -1){
+			ArchUMxP_agregar(m[pos_m], p[pos_p], contac[pos_contac]);
+		}
+		
+		pos_p = -1, pos_consul = -1, pos_m = -1, pos_contac = -1;
+		guardofecha.dia = 0;
+		guardofecha.mes = 0;
+		guardofecha.anio = 0;
+	}
+	system("cls");
+	cout << "Se ARCHIVO correctmante." << endl;
+	system("pause");
+
+	//delete[] aux_p;
 }
 
 /*void UltimoMedico()
