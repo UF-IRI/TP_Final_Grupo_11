@@ -120,7 +120,6 @@ int DiezAniosCosulta(int solicitado, int presento);
 bool ArchConsul_eliminados(Consulta c);
 void ArchConsul_RedireccionarEliminado();
 void ArchConsul_eliminar(Consulta consulta);
-
 /*------------------*/
 
 /*-----FUNCIONES----*/
