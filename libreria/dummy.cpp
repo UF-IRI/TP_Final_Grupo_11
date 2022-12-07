@@ -327,7 +327,7 @@ Medico* ArchM_leer() {
 
 	return ltmedico;
 }
-void ArchM_agregar(Medico m) {
+void ArchM_agregar() {
 	string coma = " , ";
 	string guion = "-";
 	string mas = "+";

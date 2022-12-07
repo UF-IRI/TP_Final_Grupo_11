@@ -100,7 +100,7 @@ void ImpOS();
 /*------MEDICO------*/
 void ltM_agregar(Medico*& ltmedico, Medico medico, int* tamactual);
 Medico* ArchM_leer();
-void ArchM_agregar(Medico m);
+void ArchM_agregar();
 bool ArchM_crear();
 int TamanioArchMedico();
 void ImpMedicos();
